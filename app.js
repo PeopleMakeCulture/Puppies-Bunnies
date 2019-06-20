@@ -3,6 +3,17 @@ const app = express();
 const morgan = require('morgan');
 const PORT = 3000;
 const layout = require('./views/layout');
+//the reason we deconstruct db is because we'll be importing other objects from that file.
+//not just the database.
+const { db } = require('./models');
+
+const models = require('./models');
+
+
+db.authenticate().
+then(() => {
+  console.log('connected to the database');
+})
 
 //use this only for simple directories
 // app.use(express.static('public'));
@@ -20,7 +31,22 @@ app.get('/', function(req, res) {
   // res.send(layout("<a>test</a>"));
 })
 
+
+const init = async () => {
+  // await models.User.sync()
+  // await models.Page.sync()
+//or
+await models.db.sync()
+
 app.listen(PORT, function() {
-  console.log("App listening.")
-})
+  console.log(`App is listening on port ${PORT}!`);
+});
+}
+// this drops all tables then recreates them based on our JS definitions
+models.db.sync({force: true})
+
+init();
+
+
+
 
