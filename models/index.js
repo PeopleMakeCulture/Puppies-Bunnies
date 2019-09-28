@@ -14,4 +14,4 @@ const Bunnies = db.define('bunny', {});
 //create models for bunnies
 //include: name(string), age(int), floppyEars(boolean)
 
-module.exports = { db, Bunnies };
+module.exports = { db, Bunnies, Puppies };
